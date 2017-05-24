@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1494413044 source:e:\stage l3-mi\consommation-rejet\essai\main.cpp
+	"StockageConsommation.h"
+
+1494411790 e:\stage l3-mi\consommation-rejet\essai\stockageconsommation.h
+	<math.h>
+	<iostream>
+	<string.h>
+
