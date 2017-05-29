@@ -102,6 +102,16 @@ class StockageConsommationGeneral{
         setConsMoyenne(moyenne);
         setVitesseMoyenne(v);
     }
+    void calculConsommationInstantanee(int len_a){
+        for(int i=0; i<len_a; i++){
+            bool ralentiMoteur = false;
+            sci[i] = StockageConsommationInstantanee((.05),ralentiMoteur);//Création d'un élément avec une vitesse i
+            ajoutStockage();
+            sci[i].setQ((60*10+i)/(1000*rhoDiesel));// 60=>PuissanceMoteur (kW) ; 10=>consommation (g/kW)
+
+            sci[i].affichageConsommationInstantanee();
+        }
+    }
     void affichageConsommationMoyenne(){
         cout << "consommation moyenne :" << endl;
         if(getVitesseMoyenne()<2)
@@ -160,5 +170,4 @@ class StockageConsommationGeneral{
     }
 };
 
-void calculConsommationInstantanee(StockageConsommationGeneral* g, int lengthTab);
 #endif
