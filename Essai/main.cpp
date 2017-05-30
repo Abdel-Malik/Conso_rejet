@@ -9,9 +9,7 @@ int main()
 {
     StockageConsommationGeneral scg = StockageConsommationGeneral();
     int length = 33;
-    StockageConsommationInstantanee tableauMesure[length];
 
-    scg.setTabStockage(tableauMesure);
     scg.calculConsommationInstantanee(length);
     scg.calculConsommationMoyenne();
     scg.affichageConsommationMoyenne();

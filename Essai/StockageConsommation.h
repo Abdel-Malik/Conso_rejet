@@ -9,6 +9,7 @@
 #define _StockageConsommation_h_
 
 #include <math.h>
+#include <vector>
 #include <iostream>
 #include <string.h>
 
@@ -19,11 +20,13 @@ using namespace std;
 
 /**Classe 1 SCI**/
 class StockageConsommationInstantanee{
+    /**Attributs**/
 	double Q, speed;
     bool ralenti;
 
+    /**Méthodes**/
     public:
-    //Constructeurs
+    /*Constructeurs*/
     StockageConsommationInstantanee(){
         Q = 0;
         speed = 0;
@@ -34,7 +37,8 @@ class StockageConsommationInstantanee{
         this->speed = speed;
         this->ralenti = ralenti;
     }
-    //methode
+
+    /*Méthodes*/
     void affichageConsommationInstantanee(){
         string res;
         double c = getQ();
@@ -47,7 +51,9 @@ class StockageConsommationInstantanee{
         }
         cout << c << res << endl;
     }
-    //getter
+
+    /*Getter*/
+    //Q est une valeur de consommation en L/h
     double getQ(){
         return Q;
     }
@@ -57,7 +63,8 @@ class StockageConsommationInstantanee{
     bool isRalenti(){
         return ralenti;
     }
-    //setter
+
+    /*Setter*/
     void setQ(double Q){
         this->Q = Q;
     }
@@ -71,13 +78,15 @@ class StockageConsommationInstantanee{
 
 /**Classe 2 -Principale- SCG**/
 class StockageConsommationGeneral{
-    //Attributs
-    StockageConsommationInstantanee* sci;
+
+    /**Attributs**/
+    vector<StockageConsommationInstantanee> sci;
     double consMoyenne, vitesse, rejetCO2;
     int indexDebut, nbStockNonLu;
 
+    /**Méthodes**/
     public:
-    //constructeurs
+    /*Constructeurs*/
     StockageConsommationGeneral(){
         consMoyenne = 0;
         vitesse = 0;
@@ -86,15 +95,17 @@ class StockageConsommationGeneral{
         rejetCO2 = 0;
     }
 
-    //methodes
+    /*Méthodes*/
+
+    //but : Réaliser une moyenne de la consommation du véhicule
     void calculConsommationMoyenne(){
         double moyenne = getConsMoyenne()*(getIndex()+1);
         double v = getVitesseMoyenne()*(getIndex()+1);
         int index = getIndex();
         int nonLu = getStockNonLu();
         for(int i = index; i< nonLu + index; i++){
-            moyenne += (getTabStockage())[i].getQ();
-            v += (getTabStockage())[i].getSpeed();
+            moyenne += sci[i].getQ();
+            v += sci[i].getSpeed();
         }
         moyenne = moyenne/(nonLu+index);
         v = v/(nonLu+index);
@@ -102,10 +113,11 @@ class StockageConsommationGeneral{
         setConsMoyenne(moyenne);
         setVitesseMoyenne(v);
     }
+
     void calculConsommationInstantanee(int len_a){
         for(int i=0; i<len_a; i++){
             bool ralentiMoteur = false;
-            sci[i] = StockageConsommationInstantanee((.05),ralentiMoteur);//Création d'un élément avec une vitesse i
+            sci.push_back(StockageConsommationInstantanee((.05),ralentiMoteur));//Création d'un élément avec une vitesse i
             ajoutStockage();
             sci[i].setQ((60*10+i)/(1000*rhoDiesel));// 60=>PuissanceMoteur (kW) ; 10=>consommation (g/kW)
 
@@ -127,9 +139,12 @@ class StockageConsommationGeneral{
             setRejetCO2(getConsMoyenne()*(100/vMoy)*CONST_RAPPORT_DIESEL_CO2);
     }
 
-    //getter
-    StockageConsommationInstantanee* getTabStockage(){
+    /*getter*/
+    vector<StockageConsommationInstantanee> getTabStockage(){
         return sci;
+    }
+    StockageConsommationInstantanee getSCI(int index){
+        return sci[index];
     }
     double getConsMoyenne(){
         return consMoyenne;
@@ -147,7 +162,7 @@ class StockageConsommationGeneral{
         return indexDebut;
     }
 
-    //setter
+    /*setter*/
     void setConsMoyenne(double m){
         this->consMoyenne = m;
     }
@@ -156,9 +171,6 @@ class StockageConsommationGeneral{
     }
     void setRejetCO2(double r){
         this->rejetCO2 = r;
-    }
-    void setTabStockage(StockageConsommationInstantanee* tab){
-        sci = tab;
     }
 
     void ajoutStockage(){   //ajout à faire ici à la fin
