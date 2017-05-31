@@ -14,6 +14,7 @@
 #include <vector>
 #include <iostream>
 #include <string.h>
+#include "Intermediaire.h"
 
 #define rhoDiesel (0.85)
 #define CONST_RAPPORT_DIESEL_CO2 (2.65)
@@ -22,6 +23,7 @@ using namespace std;
 
 /**Classe 1 SCI**/
 class StockageConsommationInstantanee{
+
     /**Attributs**/
 	double Q, speed;
     bool ralenti;
@@ -40,10 +42,9 @@ class StockageConsommationInstantanee{
         this->ralenti = ralenti;
     }
 
-    /*Méthodes*/
     void affichageConsommationInstantanee(){
         string res;
-        double c = getQ();
+        double c = Q;
         if(isRalenti()||getSpeed()<1)//juste a.isRalenti()
             res = " L/h";
         else{
@@ -85,6 +86,7 @@ class StockageConsommationGeneral{
     vector<StockageConsommationInstantanee> sci;
     double consMoyenne, vitesse, rejetCO2;
     int indexDebut, nbStockNonLu;
+    Intermediaire i = Intermediaire();
 
     /**Méthodes**/
     public:
@@ -118,10 +120,9 @@ class StockageConsommationGeneral{
 
     void calculConsommationInstantanee(int len_a){
         for(int i=0; i<len_a; i++){
-            bool ralentiMoteur = false;
-            sci.push_back(StockageConsommationInstantanee((.05),ralentiMoteur));//Création d'un élément avec une vitesse i !TODO *recup de données*!
+            sci.push_back(StockageConsommationInstantanee(this->i.getVitesse(),this->i.ralentiMoteur()));
             ajoutStockage();
-            sci[i].setQ((60*10+i)/(1000*rhoDiesel));// 60=>PuissanceMoteur (kW) ; 10=>consommation (g/kW) !TODO *recup de données*!
+            sci[i].setQ(this->i.getPuissanceMoteur()*this->i.getConsommation()/(1000*rhoDiesel));
 
             sci[i].affichageConsommationInstantanee();
         }
