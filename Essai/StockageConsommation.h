@@ -4,6 +4,8 @@
 // Ce header contient deux classes utilisées pour le calcul de
 // consommation d'un véhicule, (instantanée et moyenne)
 // ainsi que le calcul de ses émissions de CO2.
+
+2*!TODOrécupérations de données nécessaires!
 ///////////////////////////////////////////////////////////////*/
 #ifndef _StockageConsommation_h_
 #define _StockageConsommation_h_
@@ -99,10 +101,10 @@ class StockageConsommationGeneral{
 
     //but : Réaliser une moyenne de la consommation du véhicule
     void calculConsommationMoyenne(){
-        double moyenne = getConsMoyenne()*(getIndex()+1);
-        double v = getVitesseMoyenne()*(getIndex()+1);
-        int index = getIndex();
-        int nonLu = getStockNonLu();
+        double moyenne = consMoyenne*(indexDebut+1);
+        double v = vitesse*(indexDebut+1);
+        int index = indexDebut;
+        int nonLu = nbStockNonLu;
         for(int i = index; i< nonLu + index; i++){
             moyenne += sci[i].getQ();
             v += sci[i].getSpeed();
@@ -117,26 +119,26 @@ class StockageConsommationGeneral{
     void calculConsommationInstantanee(int len_a){
         for(int i=0; i<len_a; i++){
             bool ralentiMoteur = false;
-            sci.push_back(StockageConsommationInstantanee((.05),ralentiMoteur));//Création d'un élément avec une vitesse i
+            sci.push_back(StockageConsommationInstantanee((.05),ralentiMoteur));//Création d'un élément avec une vitesse i !TODO *recup de données*!
             ajoutStockage();
-            sci[i].setQ((60*10+i)/(1000*rhoDiesel));// 60=>PuissanceMoteur (kW) ; 10=>consommation (g/kW)
+            sci[i].setQ((60*10+i)/(1000*rhoDiesel));// 60=>PuissanceMoteur (kW) ; 10=>consommation (g/kW) !TODO *recup de données*!
 
             sci[i].affichageConsommationInstantanee();
         }
     }
     void affichageConsommationMoyenne(){
         cout << "consommation moyenne :" << endl;
-        if(getVitesseMoyenne()<2)
-            cout << getConsMoyenne() << " L/h" << endl;
+        if(vitesse < 2)
+            cout << consMoyenne << " L/h" << endl;
         else
-            cout << getConsMoyenne()*(100/getVitesseMoyenne()) << " L/100km" << endl;
+            cout << consMoyenne*(100/vitesse) << " L/100km" << endl;
     }
     void calculRejetCO2(){
-        double vMoy = getVitesseMoyenne();
+        double vMoy = vitesse;
         if(vMoy < 2)
-            setRejetCO2(getConsMoyenne()*CONST_RAPPORT_DIESEL_CO2);
+            setRejetCO2(consMoyenne*CONST_RAPPORT_DIESEL_CO2);
         else
-            setRejetCO2(getConsMoyenne()*(100/vMoy)*CONST_RAPPORT_DIESEL_CO2);
+            setRejetCO2(consMoyenne*(100/vMoy)*CONST_RAPPORT_DIESEL_CO2);
     }
 
     /*getter*/
