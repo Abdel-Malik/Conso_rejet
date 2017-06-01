@@ -10,7 +10,8 @@ int main()
     StockageConsommationGeneral scg = StockageConsommationGeneral();
     int length = 33;
 
-    scg.calculConsommationInstantanee(length);
+    for(int i = 0 ; i < length ; i++)
+        scg.calculConsommationInstantanee();
     scg.calculConsommationMoyenne();
     scg.affichageConsommationMoyenne();
     return 0;

@@ -83,25 +83,28 @@ class StockageConsommationInstantanee{
 class StockageConsommationGeneral{
 
     /**Attributs**/
-    vector<StockageConsommationInstantanee> sci;
+    vector<StockageConsommationInstantanee> sci; //si l'intérêt de retenir toutes les sci est discuté. Il est possible d'employer vector comme une pile. dans ce cas "indexDebut" sera toujours 0 et "nbStock non lu" sera toujours vector.size()
     double consMoyenne, vitesse, rejetCO2;
     int indexDebut, nbStockNonLu;
-    Intermediaire i = Intermediaire();
+    Intermediaire i;
 
     /**Méthodes**/
     public:
     /*Constructeurs*/
     StockageConsommationGeneral(){
+        i = Intermediaire();
         consMoyenne = 0;
         vitesse = 0;
         indexDebut = 0;
         nbStockNonLu = 0;
         rejetCO2 = 0;
-    }
+    };
 
     /*Méthodes*/
 
     //but : Réaliser une moyenne de la consommation du véhicule
+    //on retransforme les anciennes moyennes en somme de valeurs (de poids 1)
+    //on ajoute les nouveaux relevés et on divise de manière à obtenir une nouvelle moyenne
     void calculConsommationMoyenne(){
         double moyenne = consMoyenne*(indexDebut+1);
         double v = vitesse*(indexDebut+1);
@@ -118,15 +121,20 @@ class StockageConsommationGeneral{
         setVitesseMoyenne(v);
     }
 
-    void calculConsommationInstantanee(int len_a){
-        for(int i=0; i<len_a; i++){
-            sci.push_back(StockageConsommationInstantanee(this->i.getVitesse(),this->i.ralentiMoteur()));
-            ajoutStockage();
-            sci[i].setQ(this->i.getPuissanceMoteur()*this->i.getConsommation()/(1000*rhoDiesel));
 
-            sci[i].affichageConsommationInstantanee();
-        }
+    //but : Réaliser un calcul de la consommation du véhicule (à un instant t)
+    //on récupère les informations nécessaire à la création d'un SCI
+    //on modifie les indices de parcours pour la moyenne
+    //on calcule et stocke Q : la consommation en (l/h)
+    void calculConsommationInstantanee(){
+        sci.push_back(StockageConsommationInstantanee(this->i.getVitesse(),this->i.ralentiMoteur()));
+        ajoutStockage();
+        sci[sci.size()-1].setQ(this->i.getPuissanceMoteur()*this->i.getConsommation()/(1000*rhoDiesel));
+        sci[sci.size()-1].affichageConsommationInstantanee();
     }
+
+    //but : affichage de la consommation mdu véhicule
+    //Dans un premier temps l'affichage ce fait en texte sur la sortie standard.
     void affichageConsommationMoyenne(){
         cout << "consommation moyenne :" << endl;
         if(vitesse < 2)
@@ -134,6 +142,8 @@ class StockageConsommationGeneral{
         else
             cout << consMoyenne*(100/vitesse) << " L/100km" << endl;
     }
+
+    //but : Réaliser un calcul du rejet moyen de CO2
     void calculRejetCO2(){
         double vMoy = vitesse;
         if(vMoy < 2)
