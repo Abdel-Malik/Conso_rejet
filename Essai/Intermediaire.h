@@ -1,6 +1,6 @@
 /*///////////////////////////////////////////////////////////////
 // * Author : Abdel-Malik Bouhassoun
-// * Date : 26 Mai 2017
+// * Date : 31 Mai 2017
 // Ce header contient une classe intermédiaire
 // Cette classe permet de déplacer le problème de la réception de données
 // des classes principales pour pouvoir terminer la création de celles-ci.
@@ -55,9 +55,9 @@ class Intermediaire{
     private:
     void recuperationDonnees(){
         ralentiMot = false;
-        vitesseVehicule = 50;
-        puissanceMoteur = 60;
-        consommation = 15;
+        vitesseVehicule = 110;
+        puissanceMoteur = 90;
+        consommation = 430;
     };
 };
 

@@ -4,8 +4,6 @@
 // Ce header contient deux classes utilisées pour le calcul de
 // consommation d'un véhicule, (instantanée et moyenne)
 // ainsi que le calcul de ses émissions de CO2.
-
-2*!TODOrécupérations de données nécessaires!
 ///////////////////////////////////////////////////////////////*/
 #ifndef _StockageConsommation_h_
 #define _StockageConsommation_h_
@@ -14,7 +12,7 @@
 #include <vector>
 #include <iostream>
 #include <string.h>
-#include "Intermediaire.h"
+#include "../../IntermediaireG/IntermediaireG.h"
 
 #define rhoDiesel (0.85)
 #define CONST_RAPPORT_DIESEL_CO2 (2.65)
@@ -86,13 +84,13 @@ class StockageConsommationGeneral{
     vector<StockageConsommationInstantanee> sci; //si l'intérêt de retenir toutes les sci est discuté. Il est possible d'employer vector comme une pile. dans ce cas "indexDebut" sera toujours 0 et "nbStock non lu" sera toujours vector.size()
     double consMoyenne, vitesse, rejetCO2;
     int indexDebut, nbStockNonLu;
-    Intermediaire i;
+    IntermediaireG i;
 
     /**Méthodes**/
     public:
     /*Constructeurs*/
     StockageConsommationGeneral(){
-        i = Intermediaire();
+        i = IntermediaireG();
         consMoyenne = 0;
         vitesse = 0;
         indexDebut = 0;
