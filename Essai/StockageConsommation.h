@@ -1,10 +1,10 @@
-/*///////////////////////////////////////////////////////////////
-// * Author : Abdel-Malik Bouhassoun
-// * Date : 09 Mai 2017
-// Ce header contient deux classes utilisées pour le calcul de
-// consommation d'un véhicule, (instantanée et moyenne)
-// ainsi que le calcul de ses émissions de CO2.
-///////////////////////////////////////////////////////////////*/
+﻿/**--------------------------------------------------------
+ * \author Abdel-Malik Bouhassoun 
+ * \date 09 Mai 2017
+ * \file Ce header contient deux classes utilisées pour le calcul de
+ * consommation d'un véhicule, (instantanée et moyenne)
+ * ainsi que le calcul de ses émissions de CO2.
+ */
 #ifndef _StockageConsommation_h_
 #define _StockageConsommation_h_
 
@@ -19,14 +19,14 @@
 
 using namespace std;
 
-/**Classe 1 SCI**/
+//--**Classe 1 SCI**--//
 class StockageConsommationInstantanee{
 
-    /**Attributs**/
+    //--**Attributs**--//
 	double Q, speed;
     bool ralenti;
 
-    /**Méthodes**/
+    //-**Méthodes**-//
     public:
     /*Constructeurs*/
     StockageConsommationInstantanee(){
@@ -77,16 +77,16 @@ class StockageConsommationInstantanee{
     }
 };
 
-/**Classe 2 -Principale- SCG**/
+//--*Classe 2 -Principale- SCG*--//
 class StockageConsommationGeneral{
 
-    /**Attributs**/
+    //-**Attributs**-//
     vector<StockageConsommationInstantanee> sci; //si l'intérêt de retenir toutes les sci est discuté. Il est possible d'employer vector comme une pile. dans ce cas "indexDebut" sera toujours 0 et "nbStock non lu" sera toujours vector.size()
     double consMoyenne, vitesse, rejetCO2;
     int indexDebut, nbStockNonLu;
     IntermediaireG i;
 
-    /**Méthodes**/
+    //-**Méthodes**-//
     public:
     /*Constructeurs*/
     StockageConsommationGeneral(){
@@ -100,7 +100,8 @@ class StockageConsommationGeneral{
 
     /*Méthodes*/
 
-    //but : Réaliser une moyenne de la consommation du véhicule
+    /** \brief Réaliser une moyenne de la consommation du véhicule
+     */
     //on retransforme les anciennes moyennes en somme de valeurs (de poids 1)
     //on ajoute les nouveaux relevés et on divise de manière à obtenir une nouvelle moyenne
     void calculConsommationMoyenne(){
@@ -120,7 +121,8 @@ class StockageConsommationGeneral{
     }
 
 
-    //but : Réaliser un calcul de la consommation du véhicule (à un instant t)
+    /** \brief Réaliser un calcul de la consommation du véhicule (à un instant t)
+     */
     //on récupère les informations nécessaire à la création d'un SCI
     //on modifie les indices de parcours pour la moyenne
     //on calcule et stocke Q : la consommation en (l/h)
@@ -131,7 +133,8 @@ class StockageConsommationGeneral{
         sci[sci.size()-1].affichageConsommationInstantanee();
     }
 
-    //but : affichage de la consommation mdu véhicule
+    /** \brief affichage de la consommation mdu véhicule
+     */
     //Dans un premier temps l'affichage ce fait en texte sur la sortie standard.
     void affichageConsommationMoyenne(){
         cout << "consommation moyenne :" << endl;
@@ -141,7 +144,8 @@ class StockageConsommationGeneral{
             cout << consMoyenne*(100/vitesse) << " L/100km" << endl;
     }
 
-    //but : Réaliser un calcul du rejet moyen de CO2
+    /** \brief Réaliser un calcul du rejet moyen de CO2
+     */
     void calculRejetCO2(){
         double vMoy = vitesse;
         if(vMoy < 2)

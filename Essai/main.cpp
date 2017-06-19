@@ -1,8 +1,8 @@
-/*///////////////////////////////////////////////////////////////
-// * Author : Abdel-Malik Bouhassoun
-// * Date : 09 Mai 2017
-// Main de test
-///////////////////////////////////////////////////////////////*/
+/**--------------------------------------------------------
+ * \author Abdel-Malik Bouhassoun 
+ * \date 09 Mai 2017
+ */
+
 #include "StockageConsommation.h"
 
 int main()
