@@ -1,5 +1,5 @@
 ﻿/**--------------------------------------------------------
- * \author Abdel-Malik Bouhassoun 
+ * \author Abdel-Malik Bouhassoun
  * \date 09 Mai 2017
  * \file Ce header contient deux classes utilisées pour le calcul de
  * consommation d'un véhicule, (instantanée et moyenne)
@@ -84,13 +84,13 @@ class StockageConsommationGeneral{
     vector<StockageConsommationInstantanee> sci; //si l'intérêt de retenir toutes les sci est discuté. Il est possible d'employer vector comme une pile. dans ce cas "indexDebut" sera toujours 0 et "nbStock non lu" sera toujours vector.size()
     double consMoyenne, vitesse, rejetCO2;
     int indexDebut, nbStockNonLu;
-    IntermediaireG i;
+    IntermediaireG* intermediaire;
 
     //-**Méthodes**-//
     public:
     /*Constructeurs*/
-    StockageConsommationGeneral(){
-        i = IntermediaireG();
+    StockageConsommationGeneral(IntermediaireG* i){
+        intermediaire = i;
         consMoyenne = 0;
         vitesse = 0;
         indexDebut = 0;
@@ -127,10 +127,10 @@ class StockageConsommationGeneral{
     //on modifie les indices de parcours pour la moyenne
     //on calcule et stocke Q : la consommation en (l/h)
     void calculConsommationInstantanee(){
-        sci.push_back(StockageConsommationInstantanee(this->i.getVitesse(),this->i.ralentiMoteur()));
+        sci.push_back(StockageConsommationInstantanee(intermediaire->getVitesse()*3.6,intermediaire->ralentiMoteur()));
         ajoutStockage();
-        sci[sci.size()-1].setQ(this->i.getPuissanceMoteur()*this->i.getConsommation()/(1000*rhoDiesel));
-        sci[sci.size()-1].affichageConsommationInstantanee();
+        sci[sci.size()-1].setQ(((intermediaire->getPuissanceMoteur())/1000)*(intermediaire->getConsommation())/(1000*rhoDiesel));
+        //sci[sci.size()-1].affichageConsommationInstantanee();
     }
 
     /** \brief affichage de la consommation mdu véhicule
